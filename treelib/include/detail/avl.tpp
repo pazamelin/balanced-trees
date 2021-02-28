@@ -136,7 +136,7 @@ namespace tree
     template <typename Key, typename Compare>
     void avl<Key, Compare>::clear() noexcept
     {
-        while (not this->empty())
+        while (!this->empty())
         {
             erase(this->head->value);
         }
@@ -166,7 +166,7 @@ namespace tree
             }
 
             auto is_right_child = static_cast<bool>(cmp_cache.back());
-            if (not is_right_child)
+            if (!is_right_child)
             {
                 child = new node_type{key};
                 parent->left = child;
@@ -360,7 +360,7 @@ namespace tree
                 // the recently cached path to it
                 cmp_cache.push_back(true);
                 path_cache.push(next);
-                while (not path_cache_to_next.empty())
+                while (!path_cache_to_next.empty())
                 {
                     path_cache.push(path_cache_to_next.front());
                     cmp_cache.push_back(false);
@@ -372,13 +372,13 @@ namespace tree
         }
 
         // update balances and rebalance
-        while (not path_cache.empty())
+        while (!path_cache.empty())
         {
             node_ptr upd_node = path_cache.top();
             path_cache.pop();
             node_ptr parent_node = path_cache.empty() ? nullptr : path_cache.top();
 
-            if (not cmp_cache.back())
+            if (!cmp_cache.back())
             {
                 cmp_cache.pop_back();
 
@@ -577,12 +577,12 @@ namespace tree
             subtree = head;
         }
 
-        return is_ordered(subtree) and is_balanced(subtree) and check_balance_factors(subtree).first;
+        return is_ordered(subtree) && is_balanced(subtree) && check_balance_factors(subtree).first;
     }
 
     template <typename Key, typename Compare>
     std::pair<bool, int>
-    avl<Key, Compare>::check_balance_factors(node_ptr subtree) const
+    avl<Key, Compare>::check_balance_factors(node_ptr subtree) const noexcept
     {
         if (subtree == nullptr)
         {
@@ -595,7 +595,7 @@ namespace tree
         int height = 1 + std::max(left_height, right_height);
         bool is_good = true;
 
-        if (not(is_left_good && is_right_good) or
+        if (!(is_left_good && is_right_good) ||
             subtree->balance != detail::balance_factor(right_height - left_height))
         {
             is_good = false;
@@ -612,14 +612,14 @@ namespace tree
             return true;
         }
 
-        if (subtree->balance == detail::balance_factor::lhs_2 or
+        if (subtree->balance == detail::balance_factor::lhs_2 || 
             subtree->balance == detail::balance_factor::rhs_2)
         {
             return false;
         }
 
 
-        return is_balanced(subtree->left) and is_balanced(subtree->right);
+        return is_balanced(subtree->left) && is_balanced(subtree->right);
     }
 
     template <typename Key, typename Compare>
@@ -634,15 +634,15 @@ namespace tree
 
         node_ptr subtree_lhs = subtree->left;
         bool is_lhs_ordered =
-                subtree_lhs == nullptr or
-                key_cmp(subtree_lhs->value, key) and is_ordered(subtree_lhs);
+                subtree_lhs == nullptr || 
+                key_cmp(subtree_lhs->value, key) && is_ordered(subtree_lhs);
 
         node_ptr subtree_rhs = subtree->right;
         bool is_rhs_ordered =
-                subtree_rhs == nullptr or
-                key_cmp(key, subtree_rhs->value) and is_ordered(subtree_lhs);
+                subtree_rhs == nullptr || 
+                key_cmp(key, subtree_rhs->value) && is_ordered(subtree_lhs);
 
-        return is_lhs_ordered and is_rhs_ordered;
+        return is_lhs_ordered && is_rhs_ordered;
     }
 
     ///////////////////
@@ -699,7 +699,7 @@ namespace tree
     {
         for (auto cmp_result : cmp_cache)
         {
-            if (not cmp_result)
+            if (!cmp_result)
             {
                 subtree->balance = detail::shift_left(subtree->balance);
                 subtree = subtree->left;
@@ -748,7 +748,7 @@ namespace tree
 
     template <typename Key, typename Compare>
     typename avl<Key, Compare>::node_ptr
-    avl<Key, Compare>::rotate_left_right(node_ptr subtree) noexcept
+    avl<Key, Compare>::rotate_left_right(node_ptr subtree)
     {
 #if AVL_TREE_DEBUG_ROTATIONS == 1
         std::cerr << "left-right rotation: " << std::endl;
@@ -792,7 +792,7 @@ namespace tree
 
     template <typename Key, typename Compare>
     typename avl<Key, Compare>::node_ptr
-    avl<Key, Compare>::rotate_right_left(node_ptr subtree) noexcept
+    avl<Key, Compare>::rotate_right_left(node_ptr subtree)
     {
 #if AVL_TREE_DEBUG_ROTATIONS == 1
         std::cerr << "right-left rotation: " << std::endl;
@@ -877,7 +877,7 @@ namespace tree
     void avl<Key, Compare>::clear_cache() const
     {
         cmp_cache.clear();
-        while (not path_cache.empty())
+        while (!path_cache.empty())
         {
             path_cache.pop();
         }

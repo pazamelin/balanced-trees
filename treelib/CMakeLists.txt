@@ -27,4 +27,3 @@ if(TREELIB_BUILD_TESTS)
   	enable_testing()
     add_subdirectory(tests)
 endif(TREELIB_BUILD_TESTS)
-

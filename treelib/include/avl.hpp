@@ -86,7 +86,7 @@ namespace tree
 
         bool is_avl(node_ptr subtree = nullptr) const noexcept;
 
-        std::pair<bool, int> check_balance_factors(node_ptr subtree) const;
+        std::pair<bool, int> check_balance_factors(node_ptr subtree) const noexcept;
 
     private:
         ///////////////////
@@ -101,9 +101,9 @@ namespace tree
 
         [[nodiscard]] node_ptr rotate_right(node_ptr subtree) noexcept;
 
-        [[nodiscard]] node_ptr rotate_left_right(node_ptr subtree) noexcept;
+        [[nodiscard]] node_ptr rotate_left_right(node_ptr subtree);
 
-        [[nodiscard]] node_ptr rotate_right_left(node_ptr subtree) noexcept;
+        [[nodiscard]] node_ptr rotate_right_left(node_ptr subtree);
 
         [[nodiscard]] node_ptr rebalance(node_ptr subtree);
 

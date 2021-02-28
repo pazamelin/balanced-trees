@@ -87,7 +87,7 @@ namespace tree
             // if there is no right child -
             // go up to the closest ancestor with current node in it's left subtree
             node_stack.pop();
-            if (not node_stack.empty())
+            if (!node_stack.empty())
             {
                 Node *temp = node_stack.top();
                 while (temp && current == temp->right)
@@ -197,7 +197,7 @@ namespace tree
     template <typename Node>
     bool NodeIterator<Node>::operator != (const NodeIterator<Node>& other)
     {
-        return not (*this == other);
+        return !(*this == other);
     }
 
     template <typename Node>
