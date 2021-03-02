@@ -680,8 +680,8 @@ namespace tree
                 break;
             }
 
-            if (last_nonzero and
-                current != nullptr and
+            if (last_nonzero &&
+                current != nullptr &&
                 current->balance != detail::balance_factor::zero)
             {
                 joint_to_branch = previous;
