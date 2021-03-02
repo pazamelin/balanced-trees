@@ -23,6 +23,8 @@ namespace tree
 		using key_compare = Compare;
 		using node_type = tree::Node<key_type>;
 		using node_ptr = node_type *;
+                using iterator = tree::NodeIterator<node_type>;
+                using const_iterator = tree::NodeIterator<const node_type>;
 
 	public:
 		splay();
@@ -52,8 +54,8 @@ namespace tree
 
 		void erase(const key_type& key);
 
-		node_ptr find(const key_type& value);
-		//const_iterator find(const key_type& value) const;
+		iterator find(const key_type& value);
+		const_iterator find(const key_type& value) const;
 
 	private:
 

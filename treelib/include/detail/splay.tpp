@@ -59,6 +59,42 @@ namespace tree
 		this->clear();
 	}
 
+        template <typename Key, typename Compare>
+        typename avl<Key, Compare>::iterator avl<Key, Compare>::begin()
+        {
+                return iterator(head);
+        }
+
+        template <typename Key, typename Compare>
+        typename avl<Key, Compare>::const_iterator avl<Key, Compare>::begin() const
+        {
+                return const_iterator(head);
+        }
+
+        template <typename Key, typename Compare>
+        typename avl<Key, Compare>::const_iterator avl<Key, Compare>::cbegin() const
+        {
+                return const_iterator(head);
+        }
+
+        template <typename Key, typename Compare>
+        typename avl<Key, Compare>::iterator avl<Key, Compare>::end()
+        {
+                return iterator(head, std::make_optional<node_ptr>(nullptr));
+        }
+
+        template <typename Key, typename Compare>
+        typename avl<Key, Compare>::const_iterator avl<Key, Compare>::end() const
+        {
+                return const_iterator(head, std::make_optional<node_ptr>(nullptr));
+        }
+
+        template <typename Key, typename Compare>
+        typename avl<Key, Compare>::const_iterator avl<Key, Compare>::cend() const
+        {
+                return const_iterator(std::make_optional<node_ptr>(nullptr));
+        }
+
 	template <typename Key, typename Compare>
 	bool splay<Key, Compare>::empty() const noexcept
 	{
@@ -128,7 +164,7 @@ namespace tree
 	}
 
 	template <typename Key, typename Compare>
-	typename splay<Key, Compare>::node_ptr splay<Key, Compare>::find(const key_type& value)
+	typename splay<Key, Compare>::iterator splay<Key, Compare>::find(const key_type& value)
 	{
 		node_ptr current = head;
 		while (current != nullptr)
@@ -147,7 +183,30 @@ namespace tree
 			}
 		}
 		splay_operation(current);
-		return current;
+		return iterator(head, current);
+	}
+
+        template <typename Key, typename Compare>
+	typename splay<Key, Compare>::const_iterator splay<Key, Compare>::find(const key_type& value) const
+	{
+		node_ptr current = head;
+		while (current != nullptr)
+		{
+			if (key_cmp(value, current->value))
+			{
+				current = current->left;
+			}
+			else if (key_cmp(current->value, value))
+			{
+				current = current->right;
+			}
+			else
+			{
+				break;
+			}
+		}
+		splay_operation(current);
+		return const_iterator(head, current);
 	}
 
 	template <typename Key, typename Compare>
