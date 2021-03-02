@@ -11,6 +11,7 @@ namespace tree::detail
     template <typename ValueType>
     struct Node
     {
+		using value_type = ValueType;
         explicit Node(ValueType key) : value{key} { }
 
         void set_left(Node* subtree) noexcept

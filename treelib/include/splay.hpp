@@ -21,10 +21,10 @@ namespace tree
 	public:
 		using key_type = Key;
 		using key_compare = Compare;
-		using node_type = tree::Node<key_type>;
+		using node_type = tree::detail::Node<key_type>;
 		using node_ptr = node_type *;
-                using iterator = tree::NodeIterator<node_type>;
-                using const_iterator = tree::NodeIterator<const node_type>;
+        using iterator = tree::NodeIterator<node_type>;
+        using const_iterator = tree::NodeIterator<const node_type>;
 
 	public:
 		splay();

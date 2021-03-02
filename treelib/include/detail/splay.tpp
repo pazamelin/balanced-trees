@@ -112,7 +112,7 @@ namespace tree
 	template <typename Key, typename Compare>
 	void splay<Key, Compare>::clear() noexcept
 	{
-		while (not this->empty())
+		while (! this->empty())
 		{
 			erase(this->head->value);
 		}
