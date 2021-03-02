@@ -110,11 +110,7 @@ namespace profiler
             double average_find_time = total_find_time / operations_per_step;
             double average_erase_time = total_erase_time / operations_per_step;
 
-            results.push_back({.size=size,
-                               .insert_time =average_insert_time,
-                               .find_time = average_find_time,
-                               .erase_time = average_erase_time}
-            );
+            results.push_back({size, average_insert_time, average_find_time, average_erase_time});
         }
 
         return results;
