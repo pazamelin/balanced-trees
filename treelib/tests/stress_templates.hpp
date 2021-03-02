@@ -4,32 +4,16 @@
 #include <catch2/catch_all.hpp>
 
 #include <random>
-#include <set>
 #include <iostream>
 #include <memory>
+#include <set>
 
+#include "seed.hpp"
+#include "operations.hpp"
 #include "avl.hpp"
-
-#define SEED RAND
-#define PRINT_SEED 0
 
 namespace tree::testing
 {
-    auto get_seed()
-    {
-#if SEED == RAND
-        std::random_device rd;
-        const auto seed = rd();
-#else
-        const auto seed = SEED;
-#endif
-
-#if PRINT_SEED == 1
-        std::cout << "SEED: " << seed << "\n";
-#endif
-        return seed;
-    }
-
     template <typename TreeLHS, typename TreeRHS,
               typename Comparator>
     void stress_insert(Comparator cmp_trees,
@@ -190,28 +174,6 @@ namespace tree::testing
         }
     }
 
-    enum class eOperation : char {insert, erase, find};
-
-    eOperation get_operation(const int random_value)
-    {
-        if (random_value >= 0 && random_value < 50)
-        {
-            return eOperation::insert;
-        }
-        else if (random_value >= 50 && random_value < 75)
-        {
-            return eOperation::erase;
-        }
-        else if (random_value >= 75 && random_value < 100)
-        {
-            return eOperation::find;
-        }
-        else
-        {
-            throw std::runtime_error("wrong random value for eOperation");
-        }
-    }
-
     template <typename TreeLHS, typename TreeRHS,
             typename Comparator>
     void stress_mixed(Comparator cmp_trees,
@@ -280,19 +242,6 @@ namespace tree::testing
 
             tree_lhs.clear();
             tree_rhs.clear();
-        }
-    }
-
-    template <typename T>
-    void compare_traverse(tree::avl<T>& avl_tree, const std::set<T>& rb_tree)
-    {
-        REQUIRE(avl_tree.size() == rb_tree.size());
-        REQUIRE(avl_tree.is_avl());
-
-        auto rb_it = rb_tree.cbegin();
-        for (auto avl_element : avl_tree)
-        {
-            REQUIRE(avl_element == *rb_it++);
         }
     }
 

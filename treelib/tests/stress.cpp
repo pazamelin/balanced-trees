@@ -1,4 +1,5 @@
 #include "stress_templates.hpp"
+#include "comparators.hpp"
 
 TEST_CASE("stress test, insert", "[avl-rb]")
 {
