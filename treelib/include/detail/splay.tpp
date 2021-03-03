@@ -279,7 +279,15 @@ namespace tree
 				else {
 					parent->right = right_child;
 					if (current == head) {
-						head = left_child;
+                                            if (right_child != nullptr) {
+						head = right_child;
+					    }
+					    else {
+						head = nullptr;
+						delete current;
+						m_size--;
+						return;
+					    }
 					}
 					delete current;
 					if (right_child != nullptr) {
