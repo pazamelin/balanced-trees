@@ -1,5 +1,0 @@
-/snap/clion/139/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/pazamelin/github/nis/nis_lab2
--- TREELIB_BUILD_TESTS : OFF
--- Configuring done
--- Generating done
--- Build files have been written to: /home/pazamelin/github/nis/nis_lab2/cmake-build-debug

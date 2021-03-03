@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/test_stress.dir/stress.cpp.o  -o test_stress  /usr/local/lib/libCatch2Main.a /usr/local/lib/libCatch2.a 

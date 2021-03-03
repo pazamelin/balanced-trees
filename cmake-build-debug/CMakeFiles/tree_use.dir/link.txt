@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/tree_use.dir/main.cpp.o  -o tree_use 
