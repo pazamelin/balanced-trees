@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/test_avl.dir/avl.cpp.o  -o test_avl  /usr/local/lib/libCatch2Main.a /usr/local/lib/libCatch2.a 

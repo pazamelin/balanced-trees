@@ -1,7 +1,7 @@
 #include "stress_templates.hpp"
 #include "comparators.hpp"
 
-TEST_CASE("stress test, insert", "[avl-rb]")
+TEST_CASE("stress test, insert, avl", "[avl-rb]")
 {
     using TreeLHS = tree::avl<int>;
     using TreeRHS = std::set<int>;
@@ -11,7 +11,7 @@ TEST_CASE("stress test, insert", "[avl-rb]")
     tree::testing::stress_insert<TreeLHS, TreeRHS>(cmp, seed);
 }
 
-TEST_CASE("stress test, erase", "[avl-rb]")
+TEST_CASE("stress test, erase, avl", "[avl-rb]")
 {
     using TreeLHS = tree::avl<int>;
     using TreeRHS = std::set<int>;
@@ -21,7 +21,7 @@ TEST_CASE("stress test, erase", "[avl-rb]")
     tree::testing::stress_erase<TreeLHS, TreeRHS>(cmp, seed);
 }
 
-TEST_CASE("stress test, find", "[avl-rb]")
+TEST_CASE("stress test, find, avl", "[avl-rb]")
 {
     using TreeLHS = tree::avl<int>;
     using TreeRHS = std::set<int>;
@@ -31,7 +31,7 @@ TEST_CASE("stress test, find", "[avl-rb]")
     tree::testing::stress_find<TreeLHS, TreeRHS>(cmp, seed);
 }
 
-TEST_CASE("stress mixed", "[avl-rb]")
+TEST_CASE("stress mixed, avl", "[avl-rb]")
 {
     using TreeLHS = tree::avl<int>;
     using TreeRHS = std::set<int>;
@@ -41,7 +41,7 @@ TEST_CASE("stress mixed", "[avl-rb]")
     tree::testing::stress_mixed<TreeLHS, TreeRHS>(cmp, seed);
 }
 
-TEST_CASE("stress test, insert", "[splay-rb]")
+TEST_CASE("stress test, insert, splay", "[splay-rb]")
 {
 	using TreeLHS = tree::splay<int>;
 	using TreeRHS = std::set<int>;
@@ -51,7 +51,7 @@ TEST_CASE("stress test, insert", "[splay-rb]")
 	tree::testing::stress_insert<TreeLHS, TreeRHS>(cmp, seed);
 }
 
-TEST_CASE("stress test, erase", "[splay-rb]")
+TEST_CASE("stress test, erase, splay", "[splay-rb]")
 {
 	using TreeLHS = tree::splay<int>;
 	using TreeRHS = std::set<int>;
@@ -61,7 +61,7 @@ TEST_CASE("stress test, erase", "[splay-rb]")
 	tree::testing::stress_erase<TreeLHS, TreeRHS>(cmp, seed);
 }
 
-TEST_CASE("stress test, find", "[splay-rb]")
+TEST_CASE("stress test, find, splay", "[splay-rb]")
 {
 	using TreeLHS = tree::splay<int>;
 	using TreeRHS = std::set<int>;
@@ -71,7 +71,7 @@ TEST_CASE("stress test, find", "[splay-rb]")
 	tree::testing::stress_find<TreeLHS, TreeRHS>(cmp, seed);
 }
 
-TEST_CASE("stress mixed", "[splay-rb]")
+TEST_CASE("stress mixed, splay", "[splay-rb]")
 {
 	using TreeLHS = tree::splay<int>;
 	using TreeRHS = std::set<int>;

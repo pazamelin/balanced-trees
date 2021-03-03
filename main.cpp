@@ -9,8 +9,8 @@
 
 #include "avl.hpp"
 
-void write_csv(const std::string& csv_filename,
-               const std::vector<profiler::profile_statistic>& result
+	void write_csv(const std::string& csv_filename,
+	               const std::vector<profiler::profile_statistic>& result
 )
 {
     std::ofstream csv_file(csv_filename, std::ios::out | std::ios::trunc);
