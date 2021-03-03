@@ -3,6 +3,8 @@
 #include <string_view>
 #include <vector>
 #include <exception>
+#include <sstream>
+#include <string>
 #include <set>
 
 #include "profiler/profiler.hpp"
@@ -83,10 +85,39 @@ void profile_rb()
     write_csv(filename_prefix + "set.csv", results);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    profile_avl();
-	profile_splay();
-    profile_rb();
+	std::string what_tree;
+
+	if(argc >= 2)
+    {
+        std::stringstream ss;
+        ss << argv[1];
+        ss >> what_tree;
+    }
+    else
+    {
+        std::cerr << "wrong parameters" << "\n";
+        exit(1);
+    }
+
+    if (what_tree == "avl")
+    {
+    	profile_avl();
+    }
+    else if(what_tree == "splay")
+    {
+
+		profile_splay();
+    }
+    else if(what_tree == "rb")
+    {
+	    profile_rb();    	
+    }
+    else
+    {
+    	std::cout << "wrong tree" << "\n";
+    }
+
     return 0;
 }
