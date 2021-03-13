@@ -10,7 +10,6 @@
 
 #include "seed.hpp"
 #include "operations.hpp"
-#include "avl.hpp"
 
 namespace tree::testing
 {

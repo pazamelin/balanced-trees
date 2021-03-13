@@ -96,4 +96,35 @@ namespace tree::detail
 
         using value_type = ValueType;
     };
+
+    ///////////////////
+    //   AVL NODE   //
+    ///////////////////
+
+    template <typename ValueType>
+    struct NodeCartesian
+    {
+        explicit NodeCartesian(ValueType value, int priority)
+            : value{std::move(value)},
+              priority{priority}
+        { }
+
+        void set_left(NodeAVL<ValueType>* subtree) noexcept
+        {
+            this->left = subtree;
+        }
+
+        void set_right(NodeAVL<ValueType>* subtree) noexcept
+        {
+            this->right = subtree;
+        }
+
+        ValueType value = ValueType();
+        NodeCartesian* left   = nullptr;
+        NodeCartesian* right  = nullptr;
+        int priority = 0;
+
+        using value_type = ValueType;
+    };
+
 }

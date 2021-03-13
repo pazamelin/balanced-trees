@@ -1,6 +1,6 @@
 #include <random>
 
-#define SEED RAND
+#define SEED 0
 #define PRINT_SEED 0
 
 namespace tree::testing

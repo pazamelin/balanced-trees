@@ -11,6 +11,7 @@
 
 #include "avl.hpp"
 #include "splay.hpp"
+#include "cartesian.hpp"
 
 	void write_csv(const std::string& csv_filename,
 	               const std::vector<profiler::profile_statistic>& result

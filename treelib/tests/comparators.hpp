@@ -2,6 +2,7 @@
 
 #include "avl.hpp"
 #include "splay.hpp"
+#include "cartesian.hpp"
 
 namespace tree::testing
 {
@@ -29,5 +30,18 @@ namespace tree::testing
 			REQUIRE(splay_element == *rb_it++);
 		}
 	}
+
+    template <typename T>
+    void compare_traverse_cartesian(tree::cartesian<T>& cartesian_tree, const std::set<T>& rb_tree)
+    {
+        REQUIRE(cartesian_tree.size() == rb_tree.size());
+        REQUIRE(cartesian_tree.is_cartesian());
+
+        auto rb_it = rb_tree.cbegin();
+        for (auto cartesian_tree_element : cartesian_tree)
+        {
+            REQUIRE(cartesian_tree_element == *rb_it++);
+        }
+    }
 
 } // namespace tree::testing
