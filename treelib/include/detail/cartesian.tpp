@@ -270,7 +270,6 @@ namespace tree
 
         if (key_cmp(node_rhs->value, node_lhs->value))
         {
-            std::cerr << "SPLIT SWAPPED!" << std::endl;
             std::swap(node_lhs, node_rhs);
         }
 
