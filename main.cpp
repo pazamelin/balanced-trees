@@ -69,6 +69,23 @@ void profile_splay()
 	write_csv(filename_prefix + "splay.csv", results);
 }
 
+void profile_cartesian()
+{
+    using profiler::profile;
+
+    std::size_t size_start = 10000;
+    std::size_t size_end = 1'000'000;
+    std::size_t size_step = 10000;
+    std::size_t operations_per_step = 1000;
+
+    std::string filename_prefix = "../profiler/results/";
+
+    const auto results = profile<tree::cartesian<int>>(size_start, size_end, size_step,
+                                                operations_per_step);
+
+    write_csv(filename_prefix + "cartesian.csv", results);
+}
+
 void profile_rb()
 {
     using profiler::profile;
@@ -110,6 +127,10 @@ int main(int argc, char* argv[])
     {
 
 		profile_splay();
+    }
+    else if(what_tree == "cartesian")
+    {
+        profile_cartesian();
     }
     else if(what_tree == "rb")
     {

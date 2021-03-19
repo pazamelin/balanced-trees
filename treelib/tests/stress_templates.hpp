@@ -34,8 +34,6 @@ namespace tree::testing
         {
             for (std::size_t ins = 0; ins < insertions_per_iteration; ins++)
             {
-                std::cerr << "iter:" << iter << ", ins:" << ins << std::endl;
-
                 auto key = get_random_key();
 
                 tree_lhs.insert(key);

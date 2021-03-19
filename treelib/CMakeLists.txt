@@ -19,7 +19,6 @@ target_include_directories(treelib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/includ
 target_compile_features(treelib INTERFACE cxx_std_17)
 
 option(TREELIB_BUILD_TESTS "build tests executables" OFF)
-option(TREELIB_BUILD_PROFILING "build profiling" ON)
 
 message(STATUS "TREELIB_BUILD_TESTS : ${TREELIB_BUILD_TESTS}")
 

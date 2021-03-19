@@ -2,8 +2,8 @@
 
 #include <random>
 
-#define SEED 22
-#define PRINT_SEED 1
+#define SEED RAND
+#define PRINT_SEED 0
 
 namespace tree::testing
 {

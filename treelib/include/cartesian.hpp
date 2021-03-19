@@ -74,10 +74,10 @@ namespace tree
 
         void erase(const key_type& key);
 
-        // guaranteed memory leak if the returned value is discarded
+        // possible memory leak if the returned value is discarded
         [[nodiscard]] std::pair<node_ptr, node_ptr> split(const key_type& key, node_ptr node);
 
-        // guaranteed memory leak if the returned value is discarded
+        // possible memory leak if the returned value is discarded
         [[nodiscard]] node_ptr merge(node_ptr node_lhs, node_ptr node_rhs);
 
         /////////////////
@@ -101,8 +101,7 @@ namespace tree
         std::size_t m_size = 0;
         key_compare key_cmp = { };
 
-        //const unsigned seed = (std::random_device{})();
-        const unsigned seed = 11;
+        const unsigned seed = (std::random_device{})();
         mutable std::mt19937 gen = std::mt19937(seed);
         const int priority_min = std::numeric_limits<int>::min();
         const int priority_max = std::numeric_limits<int>::max();
