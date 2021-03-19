@@ -1,5 +1,6 @@
 #include "stress_templates.hpp"
 #include "comparators.hpp"
+#include "seed.hpp"
 
 /////////////////////////
 //   AVL - RED-BLACK   //

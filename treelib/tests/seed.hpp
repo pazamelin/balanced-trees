@@ -1,7 +1,9 @@
+#pragma once
+
 #include <random>
 
-#define SEED 0
-#define PRINT_SEED 0
+#define SEED 11
+#define PRINT_SEED 1
 
 namespace tree::testing
 {

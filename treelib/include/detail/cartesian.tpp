@@ -148,13 +148,18 @@ namespace tree
 #if CARTESIAN_TREE_DEBUG_INSERT == 1
         std::cerr << "insert" << std::endl;
 #endif
+        auto it = find(key);
+        if (it != end())
+        {
+            return nullptr;
+        }
 
         // step 1: create a new node with the given key and a random priority
-         const auto priority = get_random_priority();
+        const auto priority = get_random_priority();
         auto child = new node_type(key, priority);
 
         // step 2: split the initial tree by the key and merge in the new node
-        auto [lhs, rhs] = this->split(key);
+        auto [lhs, rhs] = this->split(key, head);
         auto result = this->merge(lhs, child);
         result = this->merge(result, rhs);
 
@@ -166,26 +171,37 @@ namespace tree
     template <typename Key, typename Compare>
     void cartesian<Key, Compare>::erase(const key_type& key)
     {
+        auto it = find(key);
+        if (it == end())
+        {
+            return;
+        }
+
         // step 1: split by key
-        auto [lhs, rhs] = this->split(key);
+        auto [lhs, rhs] = this->split(key, head);
         // lhs keys: <= key
         // rhs keys: > key
 
-        // step 2: node with the key is the rightmost node in lhs,
-        //         replace it with it's left child
+        // step 2: node with the key is the leftmost node in rhs,
+        //         replace it with it's right child
 
         node_ptr parent = nullptr;
-        node_ptr to_delete = lhs;
+        node_ptr to_delete = rhs;
 
         while (to_delete->value != key)
         {
             parent = to_delete;
-            to_delete = to_delete->right;
+            to_delete = to_delete->left;
         }
 
         if (parent != nullptr)
         {
-            parent->right = to_delete->left;
+            parent->left = to_delete->right;
+        }
+
+        if (to_delete == rhs)
+        {
+            rhs = nullptr;
         }
 
         delete to_delete;
@@ -198,70 +214,50 @@ namespace tree
     template <typename Key, typename Compare>
     [[nodiscard]] std::pair<typename cartesian<Key, Compare>::node_ptr,
                             typename cartesian<Key, Compare>::node_ptr>
-    cartesian<Key, Compare>::split(const key_type& key)
+    cartesian<Key, Compare>::split(const key_type& key, node_ptr node)
     {
-        // TODO: reconsider
-
-        if (head == nullptr)
+        if (node == nullptr)
         {
             return {nullptr, nullptr};
         }
 
-        auto root = head;
-        if (root->value == key)
+        if (key_cmp(node->value, key))
         {
-            return {nullptr, root};
-        }
+            node_ptr next = node->right;
+            auto [lhs, rhs] = split(key, next);
 
-        node_ptr previous_node;
-        auto current_node = head;
-        auto current_key = current_node->value;
-        bool first_cmp = key_cmp(current_key, key);
-        bool last_cmp;
-
-        while (current_node != nullptr)
-        {
-            previous_node = current_node;
-            current_key = current_node->value;
-
-            if (key_cmp(key, current_key))
+            /*
+            if (next != nullptr)
             {
-                last_cmp = false;
-                current_node = current_node->left;
+                next->left = nullptr;
             }
-            else if (key_cmp(current_key, key))
-            {
-                last_cmp = true;
-                current_node = current_node->right;
-            }
-            else
-            {
-                break;
-            }
-        }
+            */
 
-        if (last_cmp)
-        {
-            previous_node->right = nullptr;
+            node->right = lhs;
+
+            return {node, rhs};
         }
         else
         {
-            previous_node->left = nullptr;
-        }
+            node_ptr next = node->left;
+            auto [lhs, rhs] = split(key, next);
 
-        if (first_cmp)
-        {
-            return {root, current_node};
-        }
-        else
-        {
-            return {current_node, root};
+            /*
+            if (next != nullptr)
+            {
+                next->right = nullptr;
+            }
+            */
+
+            node->left = rhs;
+
+            return {lhs, node};
         }
     }
 
     template <typename Key, typename Compare>
     [[nodiscard]]  typename cartesian<Key, Compare>::node_ptr
-    cartesian<Key, Compare>::merge(node_ptr node_lhs, node_ptr& node_rhs)
+    cartesian<Key, Compare>::merge(node_ptr node_lhs, node_ptr node_rhs)
     {
         if (node_lhs == nullptr)
         {
@@ -273,49 +269,26 @@ namespace tree
             return node_lhs;
         }
 
-        auto priority_lhs = node_lhs->priority;
-        auto priority_rhs = node_rhs->priority;
-        node_ptr root = (priority_lhs >= priority_rhs) ? node_lhs : node_rhs;
-
-        while (true)
+        if (key_cmp(node_rhs->value, node_lhs->value))
         {
-            if (key_cmp(node_rhs->value, node_lhs->value))
-            {
-                std::swap(node_lhs, node_rhs);
-                std::swap(priority_lhs, priority_rhs);
-            }
-
-            if (priority_lhs >= priority_rhs)
-            {
-                auto right_child_lhs = node_lhs->right;
-                if (right_child_lhs != nullptr)
-                {
-                    node_lhs = right_child_lhs;
-                    priority_lhs = node_lhs->priority;
-                }
-                else
-                {
-                    node_lhs->right = node_rhs;
-                    break;
-                }
-            }
-            else
-            {
-                auto left_child_rhs = node_rhs->left;
-                if (left_child_rhs != nullptr)
-                {
-                    node_rhs = left_child_rhs;
-                    priority_rhs = node_rhs->priority;
-                }
-                else
-                {
-                    node_rhs->left = node_lhs;
-                    break;
-                }
-            }
+            std::cerr << "SPLIT SWAPPED!" << std::endl;
+            std::swap(node_lhs, node_rhs);
         }
 
-        return root;
+        node_ptr result = nullptr;
+
+        if (node_lhs->priority < node_rhs->priority)
+        {
+            result = node_rhs;
+            result->left = merge(node_lhs, result->left);
+        }
+        else
+        {
+            result = node_lhs;
+            result->right = merge(result->right, node_rhs);
+        }
+
+        return result;
     }
 
     /////////////////

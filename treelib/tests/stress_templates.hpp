@@ -19,7 +19,7 @@ namespace tree::testing
                        unsigned int seed,
                        int key_lhs = 0, int key_rhs = 100,
                        std::size_t number_of_iterations = 100,
-                       std::size_t insertions_per_iteration = 100
+                       std::size_t insertions_per_iteration = 10
     )
     {
         std::mt19937 gen(seed);
@@ -34,6 +34,8 @@ namespace tree::testing
         {
             for (std::size_t ins = 0; ins < insertions_per_iteration; ins++)
             {
+                std::cerr << "iter:" << iter << ", ins:" << ins << std::endl;
+
                 auto key = get_random_key();
 
                 tree_lhs.insert(key);
