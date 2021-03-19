@@ -14,7 +14,6 @@
 #include "detail/node.hpp"
 #include "iterator.hpp"
 
-#define CARTESIAN_TREE_DEBUG_ROTATIONS 0
 #define CARTESIAN_TREE_DEBUG_INSERT 0
 #define CARTESIAN_TREE_DEBUG_ERASE 0
 

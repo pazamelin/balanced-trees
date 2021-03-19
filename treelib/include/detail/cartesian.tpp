@@ -182,26 +182,25 @@ namespace tree
         // lhs keys: <= key
         // rhs keys: > key
 
-        // step 2: node with the key is the leftmost node in rhs,
-        //         replace it with it's right child
+        // step 2: node with the key is the rightmost node in lhs,
+        //         replace it with it's left child
 
         node_ptr parent = nullptr;
-        node_ptr to_delete = rhs;
+        node_ptr to_delete = lhs;
 
         while (to_delete->value != key)
         {
             parent = to_delete;
-            to_delete = to_delete->left;
+            to_delete = to_delete->right;
         }
 
         if (parent != nullptr)
         {
-            parent->left = to_delete->right;
+            parent->right = to_delete->left;
         }
-
-        if (to_delete == rhs)
+        else
         {
-            rhs = nullptr;
+            lhs = to_delete->left;
         }
 
         delete to_delete;
@@ -221,23 +220,7 @@ namespace tree
             return {nullptr, nullptr};
         }
 
-        if (key_cmp(node->value, key))
-        {
-            node_ptr next = node->right;
-            auto [lhs, rhs] = split(key, next);
-
-            /*
-            if (next != nullptr)
-            {
-                next->left = nullptr;
-            }
-            */
-
-            node->right = lhs;
-
-            return {node, rhs};
-        }
-        else
+        if (key_cmp(key, node->value))
         {
             node_ptr next = node->left;
             auto [lhs, rhs] = split(key, next);
@@ -252,6 +235,22 @@ namespace tree
             node->left = rhs;
 
             return {lhs, node};
+        }
+        else
+        {
+            node_ptr next = node->right;
+            auto [lhs, rhs] = split(key, next);
+
+            /*
+            if (next != nullptr)
+            {
+                next->left = nullptr;
+            }
+            */
+
+            node->right = lhs;
+
+            return {node, rhs};
         }
     }
 

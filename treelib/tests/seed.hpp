@@ -2,7 +2,7 @@
 
 #include <random>
 
-#define SEED 11
+#define SEED 22
 #define PRINT_SEED 1
 
 namespace tree::testing
