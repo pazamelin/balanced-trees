@@ -49,3 +49,16 @@ jobs:
           ./run_profiler all
           echo "done!"
 
+      - name: Commit profiling resutls
+        working-directory: ${{github.workspace}}/profiler
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add /results
+          git commit -m "upd profiling results"
+
+      - name: Push profiling resutls
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
