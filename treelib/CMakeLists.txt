@@ -18,12 +18,8 @@ add_library(treelib INTERFACE)
 target_include_directories(treelib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_compile_features(treelib INTERFACE cxx_std_17)
 
-option(TREELIB_BUILD_TESTS "build tests executables" OFF)
-
-message(STATUS "TREELIB_BUILD_TESTS : ${TREELIB_BUILD_TESTS}")
-
-if(TREELIB_BUILD_TESTS)
+if(BUILD_TESTS)
 	include(CTest)
   	enable_testing()
     add_subdirectory(tests)
-endif(TREELIB_BUILD_TESTS)
+endif()
