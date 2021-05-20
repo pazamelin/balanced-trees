@@ -16,7 +16,7 @@ env:
   # Directories
   BUILD_DIR: ${{github.workspace}}/cmake-build-release/
   TESTS_DIR: ${{github.workspace}}/treelib/cmake-build-release/
-  PROFILER_DIR: ${{BUILD_DIR}}/profiler/
+  PROFILER_DIR: ${{github.workspace}}/cmake-build-release/profiler/
 
 jobs:
   build:
