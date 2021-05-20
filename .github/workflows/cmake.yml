@@ -1,0 +1,51 @@
+name: CMake-Release
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  # Set environment variables:
+  # CMake options
+  CMAKE_BUILD_TYPE: Release
+  CMAKE_BUILD_OPTIONS: -DBUILD_TESTS=ON -DBUILD_PROFILER=ON
+  # Directories
+  BUILD_DIR: ${{github.workspace}}/cmake-build-release/
+  TESTS_DIR: ${{github.workspace}}/treelib/cmake-build-release/
+  PROFILER_DIR: ${{BUILD_DIR}}/profiler/
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure CMake
+        run: cmake -B ${{env.BUILD_DIR}} -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}} ${{env.CMAKE_BUILD_OPTIONS}}
+
+      - name: Build
+        run: cmake --build ${{env.BUILD_DIR}}
+
+      - name: Test
+        working-directory: ${{env.TESTS_DIR}}
+        # Execute tests defined by the CMake configuration.
+        run: |
+          echo "Running unit tests ..."
+          ./avl
+          echo "unit tests done!"
+          echo "Running stress tests ..."
+          ./stress
+          echo "stress tests done!"
+
+      - name: Profile
+        working-directory: ${{env.PROFILER_DIR}}
+        run: |
+          echo "Running profiler ..."
+          ./run_profiler all
+          echo "done!"
+
