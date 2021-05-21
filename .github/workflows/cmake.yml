@@ -50,9 +50,14 @@ jobs:
         with:
           name: artifacts-for-tests
 
-      - name: ls
+      - name: Run tests
         run: |
-          ls -la
+          echo "Running unit tests ..."
+          ./avl
+          echo "unit tests done!"
+          echo "Running stress tests ..."
+          ./stress
+          echo "stress tests done!"
 
   Profiling:
     runs-on: ubuntu-latest
@@ -64,6 +69,22 @@ jobs:
         with:
           name: artifacts-for-profiler
 
-      - name: ls
+      - name: Run profiler
         run: |
-          ls -la
+          echo "Running profiler ..."
+          ./run_profiler all
+          echo "done!"
+
+      - name: Commit profiling resutls
+        working-directory: ${{github.workspace}}/profiler
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add ./results
+          git commit -m "upd profiling results"
+          
+      - name: Push profiling resutls
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}          
