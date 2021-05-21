@@ -53,9 +53,11 @@ jobs:
       - name: Run tests
         run: |
           echo "Running unit tests ..."
+          chmod +x avl
           ./avl
           echo "unit tests done!"
           echo "Running stress tests ..."
+          chmod +x stress
           ./stress
           echo "stress tests done!"
 
@@ -72,6 +74,7 @@ jobs:
       - name: Run profiler
         run: |
           echo "Running profiler ..."
+          chmod +x run_profiler
           ./run_profiler all
           echo "done!"
 
