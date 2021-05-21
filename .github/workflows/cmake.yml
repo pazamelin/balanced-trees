@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: profiling-artifacts
-          path: ${{github.workspace}}/results/
+          path: ${{github.workspace}}/results
 
   Report:
     runs-on: ubuntu-latest
