@@ -108,8 +108,9 @@ jobs:
               
       - name: Make report
         run: |
-          ls -la
           rm -r profiler/results
+          mkdir results
+          mv *.csv results
           mv results profiler/
           runipy -o report.ipynb
 
