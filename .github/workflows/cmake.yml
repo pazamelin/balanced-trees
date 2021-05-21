@@ -1,26 +1,19 @@
 name: CMake-Release
 
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-env:
-  # Set environment variables:
-  # CMake options
-  CMAKE_BUILD_TYPE: Release
-  CMAKE_BUILD_OPTIONS: -DBUILD_TESTS=ON -DBUILD_PROFILER=ON
-  # Directories
-  BUILD_DIR: ${{github.workspace}}/cmake-build-release/
-  TESTS_DIR: ${{github.workspace}}/treelib/cmake-build-release/
-  PROFILER_DIR: ${{github.workspace}}/cmake-build-release/profiler/
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
+    env:
+      CMAKE_BUILD_TYPE: Release
+      CMAKE_BUILD_OPTIONS: -DBUILD_TESTS=ON -DBUILD_PROFILER=ON
+      BUILD_DIR: ${{github.workspace}}/cmake-build-release/
 
     steps:
       - uses: actions/checkout@v2
@@ -31,34 +24,46 @@ jobs:
       - name: Build
         run: cmake --build ${{env.BUILD_DIR}}
 
-      - name: Test
-        working-directory: ${{env.TESTS_DIR}}
-        # Execute tests defined by the CMake configuration.
-        run: |
-          echo "Running unit tests ..."
-          ./avl
-          echo "unit tests done!"
-          echo "Running stress tests ..."
-          ./stress
-          echo "stress tests done!"
-
-      - name: Profile
-        working-directory: ${{env.PROFILER_DIR}}
-        run: |
-          echo "Running profiler ..."
-          ./run_profiler all
-          echo "done!"
-
-      - name: Commit profiling resutls
-        working-directory: ${{github.workspace}}/profiler
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add ./results
-          git commit -m "upd profiling results"
-
-      - name: Push profiling resutls
-        uses: ad-m/github-push-action@master
+      - name: Upload build artifacts for tests
+        env:
+          TESTS_DIR: ${{github.workspace}}/treelib/cmake-build-release/
+        uses: actions/upload-artifacts@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          name: artifacts-for-tests
+          path: ${{env.TESTS_DIR}}/
+
+      - name: Upload build artifacts for profiler
+        env:
+          PROFILER_DIR: ${{env.BUILD_DIR}}/profiler/
+        uses: actions/upload-artifacts@v2
+        with:
+          name: artifacts-for-profiler
+          path: ${{env.PROFILER_DIR}}/run_profiler
+
+  Tests:
+    runs-on: ubuntu-latest
+    needs: Build
+
+    steps:
+      - name: Download artifacts for tests
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts-for-tests
+
+      - name: ls
+        run: |
+          ls -la
+
+  Profiling:
+    runs-on: ubuntu-latest
+    needs: Tests
+    
+    steps:
+      - name: Download artifacts for profiler
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts-for-profiler
+
+      - name: ls
+        run: |
+          ls -la
