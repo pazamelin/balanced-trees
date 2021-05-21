@@ -27,7 +27,7 @@ jobs:
       - name: Upload build artifacts for tests
         env:
           TESTS_DIR: ${{github.workspace}}/treelib/cmake-build-release/
-        uses: actions/upload-artifacts@v2
+        uses: actions/upload-artifact@v2
         with:
           name: artifacts-for-tests
           path: ${{env.TESTS_DIR}}/
@@ -35,7 +35,7 @@ jobs:
       - name: Upload build artifacts for profiler
         env:
           PROFILER_DIR: ${{env.BUILD_DIR}}/profiler/
-        uses: actions/upload-artifacts@v2
+        uses: actions/upload-artifact@v2
         with:
           name: artifacts-for-profiler
           path: ${{env.PROFILER_DIR}}/run_profiler
@@ -57,7 +57,7 @@ jobs:
   Profiling:
     runs-on: ubuntu-latest
     needs: Tests
-    
+
     steps:
       - name: Download artifacts for profiler
         uses: actions/download-artifact@v2
