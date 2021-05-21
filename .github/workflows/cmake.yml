@@ -108,6 +108,7 @@ jobs:
           pip install pandas
           pip install numpy
           pip install matplotlib
+          pip install seaborn
               
       - name: Make report
         run: |
