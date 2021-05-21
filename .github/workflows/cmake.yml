@@ -75,6 +75,7 @@ jobs:
 
       - name: Run profiler
         run: |
+          mkdir results
           echo "Running profiler ..."
           chmod +x run_profiler
           ./run_profiler all
