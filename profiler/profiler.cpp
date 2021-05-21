@@ -44,7 +44,7 @@ void profile_avl()
     std::size_t size_step = 10000;
     std::size_t operations_per_step = 1000;
 
-    std::string filename_prefix = "../../profiler/results/";
+    std::string filename_prefix = "results/";
 
     const auto results = profile<tree::avl<int>>(size_start, size_end, size_step,
                                                  operations_per_step);
@@ -61,7 +61,7 @@ void profile_splay()
     std::size_t size_step = 10000;
     std::size_t operations_per_step = 1000;
 
-    std::string filename_prefix = "../../profiler/results/";
+    std::string filename_prefix = "results/";
 
     const auto results = profile<tree::splay<int>>(size_start, size_end, size_step,
                                                    operations_per_step);
@@ -78,7 +78,7 @@ void profile_cartesian()
     std::size_t size_step = 10000;
     std::size_t operations_per_step = 1000;
 
-    std::string filename_prefix = "../../profiler/results/";
+    std::string filename_prefix = "results/";
 
     const auto results = profile<tree::cartesian<int>>(size_start, size_end, size_step,
                                                        operations_per_step);
@@ -95,7 +95,7 @@ void profile_rb()
     std::size_t size_step = 10000;
     std::size_t operations_per_step = 1000;
 
-    std::string filename_prefix = "../../profiler/results/";
+    std::string filename_prefix = "results/";
 
     const auto results = profile<std::set<int>>(size_start, size_end, size_step,
                                                 operations_per_step);
