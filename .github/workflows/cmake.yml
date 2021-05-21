@@ -108,15 +108,10 @@ jobs:
               
       - name: Make report
         run: |
-          rm -r ${{github.workspace}}/profiler/results
-          mv results ${{github.workspace}}/profiler/
+          ls -la
+          rm -r profiler/results
+          mv results profiler/
           runipy -o report.ipynb
-
-      - name: Upload profiling artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: profiling-artifacts
-          path: ${{github.workspace}}/profiler/results/
 
       - name: Commit the report
         run: |
