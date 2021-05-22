@@ -131,4 +131,32 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}              
+          branch: ${{ github.ref }}
+          
+  Merge-single-header:
+    runs-on: ubuntu-latest
+    env:
+      SINGLE_HEADER_DIR: ${{github.workspace}}/treelib/single_header
+    needs: Tests
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Merge headers
+        run: |
+          cmake -B ${{env.SINGLE_HEADER_DIR}}
+          
+
+      - name: Commit the single header
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add single_header.hpp
+          git commit -m "merge single_header.hpp"
+          git pull
+
+      - name: Push the single header
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}           
