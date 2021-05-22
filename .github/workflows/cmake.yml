@@ -125,6 +125,7 @@ jobs:
           git add profiler/results
           git add report.ipynb
           git commit -m "make report"
+          git pull
 
       - name: Push the report
         uses: ad-m/github-push-action@master
