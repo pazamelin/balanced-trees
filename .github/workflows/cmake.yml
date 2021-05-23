@@ -132,12 +132,44 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
+
+  Check-changes:
+    needs: Tests
+    name: Check changed files
+    outputs:
+      run_job: ${{ steps.check_files.outputs.run_job }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: check modified files
+        id: check_files
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+          
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != treelib/include/* ]]; then
+              echo "This modified file is not under the 'treelib/include/' folder."
+              echo "::set-output name=run_job::false"
+              break
+            else
+              echo "::set-output name=run_job::true"
+            fi
+          done < files.txt
           
   Merge-single-header:
     runs-on: ubuntu-latest
     env:
       SINGLE_HEADER_DIR: ${{github.workspace}}/treelib/single_header/
-    needs: Tests
+    needs: Check-changes
 
     steps:
       - uses: actions/checkout@v2
