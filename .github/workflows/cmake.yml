@@ -133,7 +133,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 
-  Check-changes:
+  CheckChanges:
     needs: Tests
     name: Check changed files
     outputs:
@@ -166,11 +166,13 @@ jobs:
           done < files.txt
           
   Merge-single-header:
+    name: Merge single_header.hpp
     runs-on: ubuntu-latest
     env:
       SINGLE_HEADER_DIR: ${{github.workspace}}/treelib/single_header/
-    needs: Check-changes
-
+    needs: CheckChanges
+    if: needs.CheckChanges.outputs.run_job == 'true'
+    
     steps:
       - uses: actions/checkout@v2
       
