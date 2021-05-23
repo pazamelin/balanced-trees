@@ -136,24 +136,26 @@ jobs:
   Merge-single-header:
     runs-on: ubuntu-latest
     env:
-      SINGLE_HEADER_DIR: ${{github.workspace}}/treelib/single_header/build
+      SINGLE_HEADER_DIR: ${{github.workspace}}/treelib/single_header/
     needs: Tests
 
     steps:
       - uses: actions/checkout@v2
       
       - name: Merge headers
+        working-directory: ${{env.SINGLE_HEADER_DIR}}/build
         run: |
-          cmake -B ${{env.SINGLE_HEADER_DIR}}        
+          pwd
+          cmake ..       
           
       - name: Commit the single header
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           ls -la
+          git pull
           git add treelib/single_header/single_header.hpp
           git commit -m "merge single_header.hpp"
-          git pull
 
       - name: Push the single header
         uses: ad-m/github-push-action@master
